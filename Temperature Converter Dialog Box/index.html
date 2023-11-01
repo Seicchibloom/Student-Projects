@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <title>Temperature Converter</title>
+</head>
+<body>
+        <div class="header">
+            <p>ACTIVITY #7 CASTRONUEVO</p>
+            <button onclick="openDialog()">Open Converter</button>
+        </div>
+        <dialog class="d2">
+        <div class="text-box">
+            <button  onclick="closeConv()">Close Converter</button>
+            <h1>Temperature Converter</h1>
+            <p>This website is dedicated for you to convert temperature such as Celsius to Fahrenheit and vice-versa.</p>
+            <div>
+                <label class="celcius">Celsius</label>
+                <input id="inputCelsius" type="number" placeholder="Celsius">
+                <button onclick="convert('C')">Convert to Fahrenheit</button>
+            </div>
+
+            <div>
+                <label class="fahrenheit">Fahrenheit</label>
+                <input id="inputFahrenheit" type="number" placeholder="Fahrenheit">
+                <button onclick="convert('F')">Convert to Celsius</button>
+            </div>
+        </div>
+    </dialog>
+    </div>
+
+    <dialog class="d1">
+        <a href="#" onclick="closeDialog()">X</a>
+        <p id="result"></p>
+    </dialog>
+<script src="script.js"></script>
+</body>
+</html>

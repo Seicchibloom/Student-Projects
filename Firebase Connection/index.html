@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ACT 8 Castronuevo</title>
+    <link rel="stylesheet" href="style.css" />
+
+    <link
+      href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div class="background-image"></div>
+    <section class="sidebar">
+      <div class="nav-header">
+        <!-- The logo is a free image from google-->
+        <img src="logo.png" class="bx bx-menu-alt-right btn-menu">
+      </div>
+      <ul class="nav-links">
+        <li>
+          <i class="bx bx-search search-btn"></i>
+          <input type="text" placeholder="Search..." />
+          <span class="tooltip">Search</span>
+        </li>
+        <li>
+          <a href="#">
+            <i class="bx bx-home-alt-2"></i>
+            <span class="title">Home</span>
+          </a>
+          <span class="tooltip">Home</span>
+        </li>
+        <li>
+          <a href="#">
+            <i class="bx bx-phone-call"></i>
+            <span class="title">Contact</span>
+          </a>
+          <span class="tooltip">Contact</span>
+        </li>
+        <li>
+          <a href="#">
+            <i class='bx bxs-buildings' ></i>
+            <span class="title">Accomodation</span>
+          </a>
+          <span class="tooltip">Accomodation</span>
+        </li>
+
+    </section>
+        <div class="text-box" id="text-box">
+            <!--Yung content ng title and description is ChatGPT-->
+            <h1>
+
+                Seoul Sizzle: Authentic Korean BBQ Experience</h1>
+            <p align="justify">Indulge in the sizzling delights of our Korean BBQ haven. Experience the art of grilling succulent cuts of marinated meats at your own table,
+                 enveloped in an ambiance that transports you to the heart of Seoul. Our carefully curated menu offers a symphony of flavors, 
+                combining traditional Korean spices with a modern twist. Join us for a memorable culinary journey through the rich tapestry of Korean BBQ.
+            </p>
+            <button id="openContainerBtn">Reserve Now</button>
+        </div>
+        <div class="menu">
+            <div class="item one">Beef Bulgogi
+                <img src="bulgogi.jpg" alt="Beef Bulgogi">
+            </div>
+            <div class="item two">A5 Wagyu
+                <img src="wagyu beef.jpg" alt="A5 Wagyu Beef">
+            </div>
+            <div class="item three">Bibimbap
+                <img src="Bibimbap.jpg" alt="Bibimbap">
+            </div>
+            <div class="item four">Beef Ribs
+                <img src="beef spare ribs.jpg" alt="Beef Spare Ribs">
+            </div>
+            <div class="item five">Pork Ribs
+                <img src="pork ribs.jpg" alt="Pork Ribs">
+            </div>
+            <div class="item six">Egg Soup
+                <img src="egg.jpg" alt="Egg Soup">
+            </div>
+            <div class="item seven">Beef Galbi
+                <img src="Galbi.jpg" alt="Beef Galbi">
+            </div>
+            <div class="item eight">Pork Belly
+                <img src="pork belly.jpg" alt="Pork Belly">
+            </div>
+        </div>
+        <dialog class="container contain" id="reservationDialog">
+            <h1>Reserve your Slot</h1>
+            <label>Reference Number</label><input type="text" id="Client_Number">
+            <label>Name</label><input type="text" id="Client_Name">
+            <label>Phone Number</label><input type="text" id="Client_Phone">
+            <label>Reservation Date</label><input type="date" id="Date_date">
+            <label>Reservation Time</label><select name="time"id="Time_time">       
+            </select>
+            <label>How Many People</label><input type="number" id="Number_Of_Person">
+            <button id="insertData">Insert</button>
+            <button id="updateData">Update</button>
+            <button id="deleteData">Delete</button>
+            <button id="getData">View</button>
+            <button id="clearQuery">Clear</button>
+            <button id="closeDialog">Close</button>
+        </dialog>
+    <script type="module">
+        function openDialog(){
+        var dialog = document.querySelector('.d1');
+        console.log(dialog); // Check if the dialog element is selected
+        dialog.showModal();
+    }
+        // Import the functions you need from the SDKs you need
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.5.2/firebase-app.js";
+        import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.5.2/firebase-analytics.js";
+        // TODO: Add SDKs for Firebase products that you want to use
+        // https://firebase.google.com/docs/web/setup#available-libraries
+      
+        // Your web app's Firebase configuration
+        // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+        const firebaseConfig = {
+          apiKey: "AIzaSyAc9QsndmMykqAwS_ytCf2ILwNnZcNeVz0",
+          authDomain: "html-db-fc6d0.firebaseapp.com",
+          databaseURL: "https://html-db-fc6d0-default-rtdb.asia-southeast1.firebasedatabase.app",
+          projectId: "html-db-fc6d0",
+          storageBucket: "html-db-fc6d0.appspot.com",
+          messagingSenderId: "673227935005",
+          appId: "1:673227935005:web:cc841d6dea81a9a5efa5f4",
+          measurementId: "G-6GK33NVRD4"
+        };
+      
+ 
+        const app = initializeApp(firebaseConfig);
+        const analytics = getAnalytics(app);
+    
+    import { getDatabase, ref, set, child, get, update, remove} from "https://www.gstatic.com/firebasejs/10.5.2/firebase-database.js";
+    
+    
+    const db = getDatabase();
+    
+    var ClientNumber1 = document.getElementById("Client_Number");
+    var Name1 = document.getElementById("Client_Name");
+    var Date1 = document.getElementById("Date_date");
+    var Time1 = document.getElementById("Time_time");
+    var Client1 = document.getElementById("Client_Phone")
+    var NumberOfPerson1 = document.getElementById("Number_Of_Person");
+    var insbtn = document.getElementById("insertData");
+    var selbtn = document.getElementById("getData");
+    var upbtn = document.getElementById("updateData");
+    var delbtn = document.getElementById("deleteData");
+    var clearbtn= document.getElementById("clearQuery");
+    function InsertData() {
+        set(ref(db, "Restaurant/" + ClientNumber1.value), {
+            ClientNumber: ClientNumber1.value,
+            Name: Name1.value,
+            Date: Date1.value,
+            ClientPhone:Client1.value,
+            Time: Time1.value,
+            NumberOfPerson: NumberOfPerson1.value
+        })
+        .then(() => {
+            alert("Data Stored Successfully");
+        })
+        .catch((error) => {
+            alert("Unsuccessful, error: " + error);
+        });
+    }
+    
+    function SelectData(){
+        const dbref = ref(db);
+    
+        get(child(dbref, "Restaurant/" + ClientNumber1.value)).then((snapshot)=>{
+            if(snapshot.exists()){
+                Name1.value = snapshot.val().Name;
+                Date1.value = snapshot.val().Date;
+                Client1.value = snapshot.val().ClientPhone;
+                Time1.value = snapshot.val().Time;
+                NumberOfPerson1.value = snapshot.val().NumberOfPerson;
+            } else {
+                alert("No data found");
+            }
+        })
+        .catch((error)=>{
+            alert("Unsuccessful, error: " + error);
+        });
+    }
+    
+    function UpdateData(){
+        update(ref(db, "Restaurant/" + ClientNumber1.value), {
+            Name: Name1.value,
+            Date: Date1.value,
+            ClientPhone:Client1.value,
+            Time: Time1.value,
+            NumberOfPerson: NumberOfPerson1.value
+        })
+        .then(() => {
+            alert("Data Updated Successfully");
+        })
+        .catch((error) => {
+            alert("Unsuccessful, error: " + error);
+        });
+    }
+    
+    function DeleteData(){
+        if (ClientNumber1.value.trim() === "") {
+            alert("Please enter a valid Reference Number.");
+            return;
+        }
+    
+        const restaurantRef = ref(db, "Restaurant/" + ClientNumber1.value);
+    
+        get(restaurantRef).then((snapshot) => {
+            if(snapshot.exists()) {
+                remove(restaurantRef)
+                    .then(() => {
+                        alert("Data Removed Successfully");
+                    })
+                    .catch((error) => {
+                        alert("Unsuccessful, error: " + error);
+                    });
+            } else {
+                alert("Reference Number not found");
+            }
+        }).catch((error) => {
+            alert("Unsuccessful, error: " + error);
+        });
+    }
+    function clearQuery(){
+        ClientNumber1.value = "";
+        Name1.value = "";
+        Date1.value = "";
+        Client1.value = "";
+        Time1.value = "";
+        NumberOfPerson1.value = "";
+    
+    }
+    insbtn.addEventListener('click', InsertData);
+    selbtn.addEventListener('click', SelectData);
+    upbtn.addEventListener('click', UpdateData);
+    delbtn.addEventListener('click', DeleteData);
+    clearbtn.addEventListener('click',clearQuery);
+    document.getElementById('openContainerBtn').addEventListener('click', function() {
+    var dialog = document.getElementById('reservationDialog');
+    dialog.style.display = 'block';
+    dialog.showModal();
+    });
+    
+    document.getElementById('closeDialog').addEventListener('click', function() {
+    var dialog = document.getElementById('reservationDialog');
+    dialog.style.display = 'none';
+    dialog.close();
+    });
+    var timeSelect = document.getElementById("Time_time");
+    var startTime = new Date(2023, 0, 1, 8, 0); 
+    var endTime = new Date(2023, 0, 1, 22, 0); 
+    var currentTime = new Date(startTime);
+    while (currentTime <= endTime) {
+        var option = document.createElement("option");
+        var hours = currentTime.getHours().toString().padStart(2, "0");
+        var minutes = currentTime.getMinutes().toString().padStart(2, "0");
+        option.value = hours + ":" + minutes;
+        option.text = hours + ":" + minutes;
+        timeSelect.add(option);
+        currentTime.setMinutes(currentTime.getMinutes() + 30); 
+    }
+    const btn_menu = document.querySelector(".btn-menu");
+          const side_bar = document.querySelector(".sidebar");
+    
+          btn_menu.addEventListener("click", function () {
+            side_bar.classList.toggle("expand");
+            changebtn();
+          });
+    
+          function changebtn() {
+            if (side_bar.classList.contains("expand")) {
+              btn_menu.classList.replace("bx-menu", "bx-menu-alt-right");
+            } else {
+              btn_menu.classList.replace("bx-menu-alt-right", "bx-menu");
+            }
+        }
+    </script>
+  </body>
+</html>
